@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
+import FileValidator from './FileValidator';
 
 declare global {
   interface Navigator {
@@ -20,9 +21,9 @@ function App() {
   const smallVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
   const midVideo = "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4";
   const largeVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-  const [videoSrc, setVideoSrc] = useState(midVideo);
-  const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [videoSrc, setVideoSrc] = useState(smallVideo);
+  const [msg, setMsg] = useState<string | null>(null);
+  const [msgColor, setMsgColor] = useState<string | null>(null);
 
   // useEffect(() => { setInterval(setVideo, 100); }, []);
 
@@ -60,77 +61,20 @@ function App() {
     }
   }
 
-  async function validateFile(file: File, allowedTypes: string[]) {
-    return new Promise<boolean>((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const buffer = reader.result as ArrayBuffer;
-        const uint8Array = new Uint8Array(buffer);
-
-        const isValid = allowedTypes.some(type => {
-          if (type === 'image/jpeg') {
-            return uint8Array[0] === 0xFF && uint8Array[1] === 0xD8 && uint8Array[uint8Array.length - 2] === 0xFF && uint8Array[uint8Array.length - 1] === 0xD9;
-          }
-          if (type === 'image/png') {
-            return uint8Array[0] === 0x89 && uint8Array[1] === 0x50 && uint8Array[2] === 0x4E && uint8Array[3] === 0x47;
-          }
-          if (type === 'application/pdf') {
-            return uint8Array[0] === 0x25 && uint8Array[1] === 0x50 && uint8Array[2] === 0x44 && uint8Array[3] === 0x46;
-          }
-          return false;
-        });
-
-        if (isValid) {
-          resolve(true);
-        } else {
-          reject('File content does not match allowed formats.');
-        }
-      };
-
-      reader.onerror = () => {
-        reject('Error reading file.');
-      };
-
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files ? event.target.files[0] : null;
 
     if (selectedFile) {
-      const allowedTypes = ['image/jpeg'];
-
-      try {
-        await validateFile(selectedFile, allowedTypes);
-        setFile(selectedFile);
-        setError(null);
-      } catch (validationError) {
-        setFile(null);
-        setError(validationError as string);
-      }
-    }
-  };
-
-  async function handleUpload() {
-    if (!file) return alert("Please select a valid file first.");
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const response = await fetch('/your-upload-endpoint', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) {
-        throw new Error('File upload failed');
-      }
-      alert('File uploaded successfully');
-    } catch (error) {
-      console.error(error);
-      alert('Error uploading file');
+      const allowedTypes = ['application/pdf', 'image/jpeg'];
+      FileValidator.validate(selectedFile, allowedTypes)
+        .then(() => {
+          setMsg("File is accepted.");
+          setMsgColor('green');
+        })
+        .catch((error) => {
+          setMsg(error);
+          setMsgColor('red');
+        });
     }
   };
 
@@ -166,14 +110,14 @@ function App() {
         </a>
       </div>
 
-      <div className="d-flex gap-1 justify-content-center mt-4">
-        <button className="btn btn-warning" onClick={() => videoChange(smallVideo)}>Small</button>
-        <button className="btn btn-warning" onClick={() => videoChange(midVideo)}>Mid</button>
-        <button className="btn btn-warning" onClick={() => videoChange(largeVideo)}>Large</button>
-        {/* <input type="file" onChange={handleFileChange} />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {file && <p>Selected file: {file.name}</p>}
-        <button onClick={handleUpload}>Upload File</button> */}
+      <div className="d-flex flex-column gap-1 justify-content-center align-items-center mt-4">
+        {/*<button className="btn btn-warning" onClick={() => videoChange(smallVideo)}>Small</button>*/}
+        {/* <button className="btn btn-warning" onClick={() => videoChange(midVideo)}>Mid</button> */}
+        {/* <button className="btn btn-warning" onClick={() => videoChange(largeVideo)}>Large</button> */}
+
+        <input type="file" onChange={(e) => handleFileChange(e)} />
+        {msg && <p style={{ color: `${msgColor}`, fontWeight: 'bold' }}>{msg}</p>}
+
       </div>
 
       <section
