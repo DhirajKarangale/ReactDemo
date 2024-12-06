@@ -65,7 +65,7 @@ function App() {
     const selectedFile = event.target.files ? event.target.files[0] : null;
 
     if (selectedFile) {
-      const allowedTypes = ['application/pdf', 'image/jpeg'];
+      const allowedTypes = ['application/pdf', 'image/png'];
       FileValidator.validate(selectedFile, allowedTypes)
         .then(() => {
           setMsg("File is accepted.");
