@@ -1,6 +1,6 @@
+import './App.css';
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
 import { FileValidator } from './FileValidator';
 
 declare global {
@@ -65,10 +65,10 @@ function App() {
     const selectedFile = event.target.files ? event.target.files[0] : null;
 
     if (selectedFile) {
-      const allowedTypes = ['application/pdf', 'image/png'];
+      const allowedTypes = ['pdf', 'png'];
 
       try {
-        await FileValidator.validateFileContent(selectedFile, allowedTypes);
+        await FileValidator.validate(selectedFile, allowedTypes);
         setMsg("File is accepted.");
         setMsgColor('green');
       } catch (validationError) {
