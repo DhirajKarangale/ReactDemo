@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
-import FileValidator from './FileValidator';
+import { FileValidator } from './FileValidator';
 
 declare global {
   interface Navigator {
@@ -65,16 +65,15 @@ function App() {
     const selectedFile = event.target.files ? event.target.files[0] : null;
 
     if (selectedFile) {
-      const allowedTypes = ['application/pdf', 'image/png'];
-      FileValidator.validate(selectedFile, allowedTypes)
-        .then(() => {
-          setMsg("File is accepted.");
-          setMsgColor('green');
-        })
-        .catch((error) => {
-          setMsg(error);
-          setMsgColor('red');
-        });
+      const allowedTypes = ['application/pdf', 'image/jpg'];
+      try {
+        await FileValidator.validateFileContent(selectedFile, allowedTypes);
+        setMsg("File is accepted.");
+        setMsgColor('green');
+      } catch (validationError) {
+        setMsg(`${validationError}`);
+        setMsgColor('red');
+      }
     }
   };
 
