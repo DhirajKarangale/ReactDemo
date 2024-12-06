@@ -65,7 +65,8 @@ function App() {
     const selectedFile = event.target.files ? event.target.files[0] : null;
 
     if (selectedFile) {
-      const allowedTypes = ['application/pdf', 'image/jpg'];
+      const allowedTypes = ['application/pdf', 'image/png'];
+
       try {
         await FileValidator.validateFileContent(selectedFile, allowedTypes);
         setMsg("File is accepted.");
@@ -114,6 +115,7 @@ function App() {
         {/* <button className="btn btn-warning" onClick={() => videoChange(midVideo)}>Mid</button> */}
         {/* <button className="btn btn-warning" onClick={() => videoChange(largeVideo)}>Large</button> */}
 
+        {/* <input type="file" accept=".png, .pdf" onChange={handleFileChange} /> */}
         <input type="file" onChange={(e) => handleFileChange(e)} />
         {msg && <p style={{ color: `${msgColor}`, fontWeight: 'bold' }}>{msg}</p>}
 
