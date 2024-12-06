@@ -64,8 +64,8 @@ function App() {
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files ? event.target.files[0] : null;
 
+    const allowedTypes = ['pdf', 'png', 'zip'];
     if (selectedFile) {
-      const allowedTypes = ['pdf', 'png'];
 
       try {
         await FileValidator.validate(selectedFile, allowedTypes);
@@ -116,6 +116,7 @@ function App() {
         {/* <button className="btn btn-warning" onClick={() => videoChange(largeVideo)}>Large</button> */}
 
         {/* <input type="file" accept=".png, .pdf" onChange={handleFileChange} /> */}
+        {/* <input type="file" accept={allowedTypes} onChange={handleFileChange} /> */}
         <input type="file" onChange={(e) => handleFileChange(e)} />
         {msg && <p style={{ color: `${msgColor}`, fontWeight: 'bold' }}>{msg}</p>}
 
