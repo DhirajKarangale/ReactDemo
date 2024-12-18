@@ -1,7 +1,7 @@
 import { ServiceClient } from '../generated/UserServiceClientPb';
 import { Request, Response } from '../generated/user_pb';
 
-const client = new ServiceClient('http://192.168.0.113:8081');
+const client = new ServiceClient('http://localhost:8081');
 
 const request = new Request();
 let msg = 'React Messgae';
