@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.4",
+    "@grpc/proto-loader": "^0.7.13",
     "@react-navigation/bottom-tabs": "^7.1.2",
     "@react-navigation/native": "^7.0.12",
     "@testing-library/jest-dom": "^5.17.0",
@@ -12,8 +14,10 @@
     "@types/node": "^16.18.120",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "google-protobuf": "^3.21.4",
+    "grpc-web": "^1.5.0",
     "jszip": "^3.10.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -52,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "protoc-gen-grpc-web": "^1.5.0"
   }
 }

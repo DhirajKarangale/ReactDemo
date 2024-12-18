@@ -2,6 +2,7 @@ import './App.css';
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FileValidator } from './FileValidator';
+import GRPC from './components/GPRC';
 
 declare global {
   interface Navigator {
@@ -81,7 +82,7 @@ function App() {
   return (
     <main className="container py-4" role="main" aria-label="Main Content" style={{ overflowX: "hidden" }}>
 
-      <header
+      {/* <header
         className="mb-4 d-flex align-items-center justify-content-center"
         role="banner"
         aria-label="Page Header"
@@ -111,12 +112,11 @@ function App() {
       </div>
 
       <div className="d-flex flex-column gap-1 justify-content-center align-items-center mt-4">
-        {/*<button className="btn btn-warning" onClick={() => videoChange(smallVideo)}>Small</button>*/}
-        {/* <button className="btn btn-warning" onClick={() => videoChange(midVideo)}>Mid</button> */}
-        {/* <button className="btn btn-warning" onClick={() => videoChange(largeVideo)}>Large</button> */}
+        <button className="btn btn-warning" onClick={() => videoChange(smallVideo)}>Small</button>
+        <button className="btn btn-warning" onClick={() => videoChange(midVideo)}>Mid</button>
+        <button className="btn btn-warning" onClick={() => videoChange(largeVideo)}>Large</button>
 
-        {/* <input type="file" accept=".png, .pdf" onChange={handleFileChange} /> */}
-        {/* <input type="file" accept={allowedTypes} onChange={handleFileChange} /> */}
+        <input type="file" accept=".png, .pdf" onChange={handleFileChange} />
         <input type="file" onChange={(e) => handleFileChange(e)} />
         {msg && <p style={{ color: `${msgColor}`, fontWeight: 'bold' }}>{msg}</p>}
 
@@ -321,7 +321,10 @@ function App() {
             </a>.
           </p>
         </aside>
-      </footer>
+      </footer> */}
+
+      <GRPC />
+
     </main>
   );
 }

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package banking;
+
+option java_multiple_files = true;
+option java_package = "com.dk.grpc";
+
+message Request {
+  string message = 1;
+}
+
+message Response {
+  string message = 1;
+}
+
+service Service {
+  rpc sendMessage(Request) returns (Response);
+}
